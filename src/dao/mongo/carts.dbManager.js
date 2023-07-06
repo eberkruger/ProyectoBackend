@@ -1,7 +1,7 @@
 import { cartModel } from '../models/carts.model.js'
-import Products from './products.dbManager.js'
+import ProductManagerDB from './products.dbManager.js'
 
-const productManager = new Products()
+const productManager = new ProductManagerDB()
 
 export default class CartsManagerDB {
 

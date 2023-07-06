@@ -7,7 +7,7 @@ export default class MessagesManagerDB {
     return result
   }
 
-  async getMessage() {
+  async getAllMessages() {
     const result = await messageModel.find().lean()
     return result
   }

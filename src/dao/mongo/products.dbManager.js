@@ -2,8 +2,8 @@ import { productModel } from '../models/products.model.js'
 
 export default class ProductManagerDB {
 
-  getAll = async (limit) => {
-    const products = await productModel.find().limit(limit).lean()
+  getAll = async () => {
+    const products = await productModel.find().lean()
 
     if (products) {
       return products
