@@ -1,13 +1,15 @@
-import express  from 'express'
+import express from 'express'
 import handlebars from 'express-handlebars'
-import http from 'http'
 import { Server } from 'socket.io'
-import __dirname from './src/utils.js'
 import mongoose from 'mongoose'
+import http from 'http'
+import __dirname from './src/utils.js'
+import routers from './src/routes/index.router.js'
 
-
-import ProductManager from './src/dao/fs/productManager.js'
-const productManager = new ProductManager('./src/files/products.json')
+import ProductManagerDB from './src/dao/mongo/products.dbManager.js'
+import MessagesManagerDB from './src/dao/mongo/messages.dbManager.js'
+const productManagerDB = new ProductManagerDB()
+const messagesManagerDB = new MessagesManagerDB()
 
 
 const PORT = process.env.PORT || 8080
@@ -25,6 +27,13 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', `${__dirname}/views`)
 app.set('view engine', 'handlebars')
 
+
+/* server */
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
+
+/* DB */
 try {
   await mongoose.connect('mongodb+srv://eberkruger:zU415sC6F3UgAK1d@backendcoder.je3pu0q.mongodb.net/ecommerce')
   console.log('Connected to DB')
@@ -32,10 +41,37 @@ try {
   console.log(error)
 }
 
-/* server */
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+/* routers */
+app.use('/', routers)
+app.use('/api', routers)
+
+/* webSocket */
+io.on('connection', async socket => {
+
+  const products = await productManagerDB.getAll()
+  const messages = await messagesManagerDB.getAllMessages()
+
+  socket.emit('products', products)
+
+  socket.on('newProduct', async (data) => {
+    await productManagerDB.createProduct(data)
+    socket.emit('products', products)
+  })
+
+  socket.on("deleteProduct", async (id) => {
+    const products = await productManagerDB.deleteById(id)
+    socket.emit("products", products)
+  })
+
+  socket.emit("messages", messages)
+
+  socket.on("newMessage", async (data) => {
+    await messagesManagerDB.addMensagger(data)
+    socket.emit("messages", messages)
+  })
 })
+
+
 
 
 
