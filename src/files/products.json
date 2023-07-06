@@ -1,0 +1,67 @@
+[
+  {
+    "title": "Notebook",
+    "description": "Computadora portátil",
+    "code": "001",
+    "price": 500,
+    "stock": 20,
+    "category": "Computadora",
+    "thumbnails": [
+      null
+    ],
+    "status": true,
+    "id": 1
+  },
+  {
+    "title": "Celular",
+    "description": "Smartphone",
+    "code": "002",
+    "price": 599,
+    "stock": 20,
+    "category": "Celular",
+    "thumbnails": [
+      []
+    ],
+    "status": "true",
+    "id": 4
+  },
+  {
+    "title": "Lavarropa",
+    "description": "Electrodoméstico lavarropa",
+    "code": "007",
+    "price": 699,
+    "stock": 20,
+    "category": "Electrodoméstico",
+    "thumbnails": [
+      []
+    ],
+    "status": "true",
+    "id": 5
+  },
+  {
+    "title": "Tablet",
+    "description": "Tableta",
+    "code": "0022",
+    "price": 699,
+    "stock": 10,
+    "category": "Tablet",
+    "thumbnails": [
+      []
+    ],
+    "status": "true",
+    "id": 6
+  },
+  {
+    "title": "Televisor",
+    "description": "Televisor 4k",
+    "code": "007",
+    "price": 999,
+    "stock": 10,
+    "category": "Televisor",
+    "thumbnails": [
+      []
+    ],
+    "status": "true",
+    "id": 7
+  }
+]
