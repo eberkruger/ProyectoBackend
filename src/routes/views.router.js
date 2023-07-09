@@ -11,9 +11,9 @@ const productManagerDB = new ProductManagerDB()
 router.get('/', async (req, res) => {
   const products = await productManagerDB.getAll()
 
-  res.render("home", {
-    style: "home.css",
-    title: "Home",
+  res.render('home', {
+    style: 'home.css',
+    title: 'Home',
     products: products,
   })
 })
@@ -22,20 +22,20 @@ router.get('/', async (req, res) => {
 router.get('/realtimeproducts', async (req, res) => {
   const products = await productManagerDB.getAll()
 
-  res.render("realTimeProducts", {
-    style: "realTimeProducts.css",
-    title: "Real Time Products",
-    products: products,
+  res.render('realTimeProducts', {
+    style: 'realTimeProducts.css',
+    title: 'Real Time Products',
+    products: products
   })
 })
 
 /* chat */
-router.get("/chat", async (req, res) => {
+router.get('/chat', async (req, res) => {
   const messages = await messagesManagerDB.getAllMessages()
 
-  res.render("chat", {
-    style: "chat.css",
-    title: "Chat",
+  res.render('chat', {
+    style: 'chat.css',
+    title: 'Chat',
     messages: messages,
   })
 })
