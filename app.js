@@ -55,10 +55,8 @@ io.on('connection', async socket => {
   socket.emit('products', products)
 
   socket.on('newProduct', async (data) => {
-    await productManagerDB.createProduct(data)
-    const mensaje = await productManagerDB.createProduct(data)       
-      socket.emit('dataEvent', mensaje)
-    socket.emit('products', products)
+    const result = await productManagerDB.createProduct(data)
+    socket.emit('products', result)
   })
 
   socket.on("deleteProduct", async (id) => {

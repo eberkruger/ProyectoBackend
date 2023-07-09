@@ -2,6 +2,11 @@
 
   <h1>Ecommerce</h1>
 
+  <div class="menu">
+    <a href="/">Ir al home</a>
+    <a href="/realTimeProducts">Ir a productos en tiempo real</a>
+  </div>
+
   <div class="formConteiner">
 
     <h2>Ingresar Nuevos Productos</h2>
@@ -9,50 +14,42 @@
     <form id="formulario" action="">
 
       <div>
-        <label for="title">Titulo: </label>
-        <input type="text" name="title" id="">
+        <input type="text" name="title" id="title" placeholder="Title" required>
       </div>
         
       <div>
-        <label for="description">Descripcion: </label>
-        <input type="text" name="description" id="">
+        <input type="text" name="description" id="description" placeholder="Description" required>
       </div>
         
       <div>
-        <label for="price">Precio: </label>
-        <input type="text" name="price" id="">
+        <input type="text" name="price" id="price" placeholder="Price" required>
       </div>
 
       <div>
-        <label for="thumbnail">Thumbnail :</label>
-        <input type="text" name="thumbnail" id="">
+        <input type="text" name="thumbnail" id="thumbnail" placeholder="Thumbnail">
       </div>
 
       <div>
-        <label for="code">Code: </label>
-        <input type="text" name="code" id="">
+        <input type="text" name="code" id="code" placeholder="Code" required>
       </div>
 
       <div>
-        <label for="stock">Stock: </label>
-        <input type="text" name="stock" id="">
+        <input type="text" name="stock" id="stock" placeholder="stock" required>
       </div>
 
       <div>
-        <label for="category">Category: </label>
-        <input type="text" name="category" id="">
+        <input type="text" name="category" id="category" placeholder="Category" required>
       </div>
       
       <div>
-        <label for="status">Status: </label>
-        <input type="text" name="status" id="">
-      </div>       
+            <label>True</label>
+            <input type="radio" name="status" value="true" checked>  
+            <label>False</label>
+            <input type="radio" name="status" value="false">
+        </div>       
 
-      <input class="botonForm" type="submit">
+      <input class="botonForm" type="submit" value="Crear">
     </form>
-
-    <span class="errorForm">Alguno de los campos no fue ingresado !</span>
-
   </div>
 
   <h2>Productos Actuales</h2>
