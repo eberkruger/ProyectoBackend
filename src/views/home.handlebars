@@ -1,0 +1,30 @@
+<h1>Ecommerce</h1>
+
+<div class="menu">
+  <a href="/">Ir al home</a>
+  <a href="/realTimeProducts">Ir a productos en tiempo real</a>
+</div>
+
+<div id="verProductsHome">
+
+  <h2>Productos</h2>
+
+  <div id="mostrarProductos">   
+    {{#if product}}
+      {{#each product}}
+          <div id="cart">
+            <p><span class="keyDer"> ID: </span>{{this._id}}</p>
+            <p><span class="keyDer"> TITULO: </span> {{this.title}}</p>
+            <p><span class="keyDer"> DESCRIPCION: </span> {{this.description}}</p>
+            <p><span class="keyDer"> PRECIO: </span> ${{this.price}}</p>
+            <p><span class="keyDer"> THUMBNAIL: </span> {{this.thumbnail}} </p>
+            <p><span class="keyDer"> CODIGO: </span> {{this.code}}  </p>
+            <p><span class="keyDer"> STOCK: </span> {{this.stock}}</p>
+            <p><span class="keyDer"> CATEGORIA: </span> {{this.category}}</p>
+            <p><span class="keyDer"> STATUS: </span> {{this.status}} </p>                    
+          </div>
+      {{/each}} 
+    {{/if}}
+  </div>
+
+</div>

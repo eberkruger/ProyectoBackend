@@ -47,6 +47,7 @@ app.use('/api', routers)
 
 /* webSocket */
 io.on('connection', async socket => {
+  console.log('Nuevo cliente conectado')
 
   const products = await productManagerDB.getAll()
   const messages = await messagesManagerDB.getAllMessages()
@@ -55,6 +56,8 @@ io.on('connection', async socket => {
 
   socket.on('newProduct', async (data) => {
     await productManagerDB.createProduct(data)
+    const mensaje = await productManagerDB.createProduct(data)       
+      socket.emit('dataEvent', mensaje)
     socket.emit('products', products)
   })
 
@@ -69,6 +72,14 @@ io.on('connection', async socket => {
     await messagesManagerDB.addMensagger(data)
     socket.emit("messages", messages)
   })
+
+  socket.on('authenticated', async data => {
+    socket.emit('messages', messages)
+    console.log(messages)
+
+    socket.broadcast.emit('newUserConnected', data)
+})
+ 
 })
 
 
