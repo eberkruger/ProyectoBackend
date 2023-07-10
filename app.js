@@ -71,13 +71,9 @@ io.on('connection', async socket => {
     socket.emit("messages", messages)
   })
 
-  socket.on('authenticated', async data => {
+  socket.on('authenticated', async () => {
     socket.emit('messages', messages)
-    console.log(messages)
-
-    socket.broadcast.emit('newUserConnected', data)
-})
- 
+  })
 })
 
 

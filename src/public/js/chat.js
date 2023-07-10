@@ -6,7 +6,7 @@ const chatBox = document.getElementById('chatBox')
 swal.fire({
   title: 'Identificate',
   input: 'text',
-  text: 'Ingresa el usuario para identificarte en el caht',
+  text: 'Ingresa el usuario para identificarte en el chat',
   inputValidator: (value) => {
     return !value && "Necesitas escribir un nombre de usuario"
   },
@@ -14,6 +14,7 @@ swal.fire({
   allowEscapeKey: false
 }).then(result => {
   user = result.value
+  console.log(user)
   socket.emit('authenticated', user)
 })
 
@@ -26,22 +27,28 @@ chatBox.addEventListener('keyup', evt => {
   }
 })
 
-socket.on('messages', data => {
+
+socket.on('messages', (data) => {
+  let log = document.getElementById('messageLogs')
+  log.innerHTML = ''
+
+  data.forEach((message) => {
+    let div = document.createElement('div')
+    div.classList.add('mensajes')
+    div.innerHTML = `
+    ${message.user} dice: ${message.message}<br/>
+    `
+
+    log.appendChild(div)
+  })
+})
+
+
+/* socket.on('messages', (data) => {
   let log = document.getElementById('messageLogs')
   let messages
-  data.forEach(message => {
+  data.forEach((message) => {
     messages += `${message.user} dice: ${message.message}<br/>`
   })
   log.innerHTML = messages
-})
-
-socket.on('newUserConnected', data => {
-  Swal.fire({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 2000,
-    title: `${data} se ha unido al chat`,
-    icon: 'succes'
-  })
-})
+}) */
