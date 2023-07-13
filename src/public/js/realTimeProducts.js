@@ -21,7 +21,7 @@ socket.on('products', data => {
         <p><span class="keyDer"> STOCK: </span> ${item.stock}</p>
         <p><span class="keyDer"> CATEGORIA: </span> ${item.category}</p>
         <p><span class="keyDer"> STATUS: </span> ${item.status} </p>
-        <button id="${item._id}">Eliminar</button>        
+        <button class="buttonEliminar" id="${item._id}">Eliminar</button>        
       </div>
       `
     })
