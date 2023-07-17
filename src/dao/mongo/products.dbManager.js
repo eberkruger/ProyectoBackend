@@ -34,7 +34,7 @@ export default class ProductManagerDB {
 
     try {
       const products = await productModel.paginate(findQuery, { page: queryPage, limit: queryLimit, sort: { price: querySort }, lean: true })
-      console.log(products)
+      //console.log(products)
       if (products) {
         return products
       } else {

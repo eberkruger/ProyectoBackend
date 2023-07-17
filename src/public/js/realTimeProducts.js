@@ -3,13 +3,13 @@ const socket = io()
 const getProducts = document.querySelector('#mostrarProductos')
 const getError = document.querySelector('.errorForm')
 
-socket.on('products', data => {
+socket.on('products', docs => {
 
   let html = ''
 
-  if(Array.isArray(data)) {
+  if(Array.isArray(docs)) {
 
-    data.forEach((item) => {
+    docs.forEach((item) => {
       html += `
       <div id="cart">
         <p><span class="keyDer"> ID: </span> ${item._id}</p>
@@ -57,8 +57,8 @@ valorInput.addEventListener('submit', (e) => {
   valorInput.reset()
 })
 
-socket.on('dataEvent', data => {
+socket.on('dataEvent', docs => {
   Swal.fire(
-    data
+    docs
   )
 })

@@ -28,4 +28,15 @@
     {{/if}}
   </div>
 
+  <div class="paginacion">
+    {{#if pagination.hasPrevPage}}
+      <a href={{pagination.prevLink}}><button class="buttonPaginacion">Anterior</button></a>
+    {{/if}}
+
+    {{#if pagination.hasNextPage}}
+      <a href={{pagination.nextLink}}><button class="buttonPaginacion">Siguiente</button></a>
+    {{/if}}
+  </div>
+
 </div>
+

@@ -9,24 +9,33 @@ const productManagerDB = new ProductManagerDB()
 
 /* home */
 router.get('/', async (req, res) => {
-  const { limit = 5, page, sort, query } = req.query
-  const { docs } = await productManagerDB.getAll(limit, page, sort, query)
-  const products = docs
+  const { limit = 4, page, sort, query } = req.query
+  const products = await productManagerDB.getAll(limit, page, sort, query)
+
+  console.log(products)
+
+  const url = '/?'
+  products.prevLink = products.hasPrevPage ? `${url}page=${products.prevPage}` : null
+  products.nextLink = products.hasNextPage ? `${url}page=${products.nextPage}` : null
+
   res.render('home', {
     style: 'home.css',
     title: 'Home',
-    products: products,
+    products: products.docs,
+    pagination: products
   })
 })
 
 /* realTimeProducts */
 router.get('/realtimeproducts', async (req, res) => {
-  const products = await productManagerDB.getAll()
+  const { limit, page, sort, query } = req.query
+  const { docs } = await productManagerDB.getAll(limit, page, sort, query)
+  //const products = await productManagerDB.getAll()
 
   res.render('realTimeProducts', {
     style: 'realTimeProducts.css',
     title: 'Real Time Products',
-    products: products,
+    products: docs,
   })
 })
 
