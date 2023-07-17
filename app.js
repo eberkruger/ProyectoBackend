@@ -49,7 +49,8 @@ app.use('/api', routers)
 io.on('connection', async socket => {
   console.log('Nuevo cliente conectado')
 
-  const products = await productManagerDB.getAll()
+  const { docs } = await productManagerDB.getAll()
+  const products = docs
   const messages = await messagesManagerDB.getAllMessages()
 
   socket.emit('products', products)

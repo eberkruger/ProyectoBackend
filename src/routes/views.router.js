@@ -9,8 +9,9 @@ const productManagerDB = new ProductManagerDB()
 
 /* home */
 router.get('/', async (req, res) => {
-  const products = await productManagerDB.getAll()
-
+  const { limit = 5, page, sort, query } = req.query
+  const { docs } = await productManagerDB.getAll(limit, page, sort, query)
+  const products = docs
   res.render('home', {
     style: 'home.css',
     title: 'Home',
@@ -25,7 +26,7 @@ router.get('/realtimeproducts', async (req, res) => {
   res.render('realTimeProducts', {
     style: 'realTimeProducts.css',
     title: 'Real Time Products',
-    products: products
+    products: products,
   })
 })
 

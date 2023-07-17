@@ -5,14 +5,12 @@ const router = Router()
 const productManagerDB = new ProductManagerDB()
 
 router.get('/', async (req, res) => {
-  const limit = req.query.limit
-  const products = await productManagerDB.getAll()
-
-  if (!limit) {
-    res.status(200).json(products)
-  } else {
-    const limitedProducts = products.slice(0, limit)
-    res.status(200).json(limitedProducts)
+  try {
+    const { limit, sort, query, page } = req.query
+    const products = await productManagerDB.getAll(limit, page, sort, query)
+    res.status(200).send(products)
+  } catch (error) {
+    res.status(500).send(`Error al obtener los productos: ${error}`)
   }
 })
 

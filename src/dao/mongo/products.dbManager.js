@@ -2,13 +2,48 @@ import { productModel } from '../models/products.model.js'
 
 export default class ProductManagerDB {
 
-  getAll = async () => {
-    const products = await productModel.find().lean()
+  getAllProducts = async () => {
+    try {
+      const products = await productModel.find().lean()
+      if (products) {
+        return products
+      } else {
+        return null
+      }
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
-    if (products) {
-      return products
-    } else {
-      return []
+
+  getAll = async (limit, page, sort, query) => {
+
+    let queryLimit = limit ? Number(limit) : 20
+    let queryPage = page ? Number(page) : 1
+    let findQuery = query ? { category: query } : {}
+
+    let querySort
+    if (sort === 'asc') {
+      querySort = 1
+    } else if (sort === 'desc') {
+      querySort = -1
+    } else if (sort && sort !== 'asc' && sort !== 'desc') {
+      throw new Error('Error: Solo se admite asc o desc')
+    }
+
+    try {
+      const products = await productModel.paginate(findQuery, { page: queryPage, limit: queryLimit, sort: { price: querySort }, lean: true })
+      console.log(products)
+      if (products) {
+        return products
+      } else {
+        return null
+      }
+
+    } catch (error) {
+      console.log(`Error al tratar de obtener los productos: ${error}`)
+      throw error
     }
   }
 
