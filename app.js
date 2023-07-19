@@ -8,8 +8,10 @@ import routers from './src/routes/index.router.js'
 
 import ProductManagerDB from './src/dao/mongo/products.dbManager.js'
 import MessagesManagerDB from './src/dao/mongo/messages.dbManager.js'
+import CartsManagerDB from './src/dao/mongo/cartsManager.js'
 const productManagerDB = new ProductManagerDB()
 const messagesManagerDB = new MessagesManagerDB()
+const cartsManagerDB = new CartsManagerDB()
 
 
 const PORT = process.env.PORT || 8080
@@ -52,6 +54,7 @@ io.on('connection', async socket => {
   const { docs } = await productManagerDB.getAll()
   const products = docs
   const messages = await messagesManagerDB.getAllMessages()
+  const carts = await cartsManagerDB.getCarts()
 
   socket.emit('products', products)
 
@@ -74,6 +77,13 @@ io.on('connection', async socket => {
 
   socket.on('authenticated', async () => {
     socket.emit('messages', messages)
+  })
+
+  socket.emit('carts', carts)
+
+  socket.on('newCart', async (data) => {
+    const result = await cartsManagerDB.addCart(data)
+    socket.emit('carts', result)
   })
 })
 

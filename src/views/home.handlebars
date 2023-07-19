@@ -13,16 +13,23 @@
   <div id="mostrarProductos">   
     {{#if products}}
       {{#each products}}
-          <div id="cart">
-            <p><span class="keyDer"> ID: </span>{{this._id}}</p>
-            <p><span class="keyDer"> TITULO: </span> {{this.title}}</p>
-            <p><span class="keyDer"> DESCRIPCION: </span> {{this.description}}</p>
-            <p><span class="keyDer"> PRECIO: </span> ${{this.price}}</p>
-            <p><span class="keyDer"> THUMBNAIL: </span> {{this.thumbnail}} </p>
-            <p><span class="keyDer"> CODIGO: </span> {{this.code}}  </p>
-            <p><span class="keyDer"> STOCK: </span> {{this.stock}}</p>
-            <p><span class="keyDer"> CATEGORIA: </span> {{this.category}}</p>
-            <p><span class="keyDer"> STATUS: </span> {{this.status}} </p>                    
+          <div id="card">
+            <div class="infoCard">
+              <p><span class="keyDer"> ID: </span>{{this._id}}</p>
+              <p><span class="keyDer"> TITULO: </span> {{this.title}}</p>
+              <p><span class="keyDer"> DESCRIPCION: </span> {{this.description}}</p>
+              <p><span class="keyDer"> PRECIO: </span> ${{this.price}}</p>
+              <p><span class="keyDer"> THUMBNAIL: </span> {{this.thumbnail}} </p>
+              <p><span class="keyDer"> CODIGO: </span> {{this.code}}  </p>
+              <p><span class="keyDer"> STOCK: </span> {{this.stock}}</p>
+              <p><span class="keyDer"> CATEGORIA: </span> {{this.category}}</p>
+              <p><span class="keyDer"> STATUS: </span> {{this.status}} </p>
+            </div>
+            <div class="botonera">
+              <form action="http://localhost:8080/api/carts/64af4758abd56799dbb60d28/products/{{this._id}}" method="post">
+                <input type="submit" class="buttonAddCart" value="Agregar al carrito">
+              </form>
+            </div>                    
           </div>
       {{/each}} 
     {{/if}}

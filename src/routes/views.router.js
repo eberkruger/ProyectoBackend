@@ -2,10 +2,12 @@ import { Router } from "express"
 
 import MessagesManagerDB from '../dao/mongo/messages.dbManager.js'
 import ProductManagerDB from '../dao/mongo/products.dbManager.js'
+import CartsManagerDB from '../dao/mongo/cartsManager.js'
 
 const router = Router()
 const messagesManagerDB = new MessagesManagerDB()
 const productManagerDB = new ProductManagerDB()
+const cartsManagerDB = new CartsManagerDB()
 
 /* home */
 router.get('/', async (req, res) => {
@@ -37,6 +39,25 @@ router.get('/realtimeproducts', async (req, res) => {
     title: 'Real Time Products',
     products: docs,
   })
+})
+
+/* Carts */
+router.get('/carts/:cid', async (req, res) => {
+  const cartId = req.params.cid
+
+  try{
+      const cart = await cartsManagerDB.getCartById(cartId)
+      
+      res.status(200).render('cart', {
+          script: "cart",
+          style: "cart.css",
+          title: "Cart",
+          cart: cart
+      })
+
+  }catch(error){
+      res.status(500).send(`Error trying to fetch cart data: ${error}`)
+  }
 })
 
 /* chat */

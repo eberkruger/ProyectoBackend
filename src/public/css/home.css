@@ -88,15 +88,37 @@ h2 {
   flex-wrap: wrap;
 }
 
-#cart {
+#card {
   display: flex;
   flex-direction: column;
+  gap: 15px;
   flex-wrap: wrap;
   max-width: 16em;
   background-color: #0e1114;
   border-radius: 4px;
   padding: 8px;
   box-shadow: 0px 0px 50px #0e1114;
+}
+
+.botonera {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonAddCart {
+  cursor: pointer;
+  outline: none;
+  border-radius: 4px;
+  padding: 0 5px;
+  border-color: transparent;
+  background-color: #A9ECA2;
+  transition: all ease 0.5s;
+}
+
+.buttonAddCart:hover {
+  background-color: #53a548;
+  color: white;
 }
 
 p {

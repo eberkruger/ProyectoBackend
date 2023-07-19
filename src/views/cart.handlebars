@@ -1,0 +1,22 @@
+<div class="container">
+
+  <div id="mostrarProductos">   
+      {{#each carts.products}}
+          <div id="cart">
+            <p><span class="keyDer"> ID: </span>{{this.product._id}}</p>
+            <p><span class="keyDer"> TITULO: </span> {{this.product.title}}</p>
+            <p><span class="keyDer"> DESCRIPCION: </span> {{this.product.description}}</p>
+            <p><span class="keyDer"> PRECIO: </span> ${{this.product.price}}</p>
+            <p><span class="keyDer"> THUMBNAIL: </span> {{this.product.thumbnail}} </p>
+            <p><span class="keyDer"> CODIGO: </span> {{this.product.code}}  </p>
+            <p><span class="keyDer"> STOCK: </span> {{this.product.stock}}</p>
+            <p><span class="keyDer"> CATEGORIA: </span> {{this.product.category}}</p>
+            <p><span class="keyDer"> STATUS: </span> {{this.product.status}} </p>                    
+          </div>
+      {{/each}} 
+  </div>
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/cart.js"></script>
