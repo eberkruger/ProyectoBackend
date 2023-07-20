@@ -25,6 +25,7 @@ export default class CartsManagerDB {
   addCart = async (cart) => {
     const idProduct = cart.product.trim()
     const quantityProduct = Number(cart.quantity)
+    console.log(idProduct)
 
     if (quantityProduct < 1 || idProduct.length < 1) return
 

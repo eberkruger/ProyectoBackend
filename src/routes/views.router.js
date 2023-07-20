@@ -47,9 +47,8 @@ router.get('/carts/:cid', async (req, res) => {
 
   try{
       const cart = await cartsManagerDB.getCartById(cartId)
-      
+      console.log(cart)
       res.status(200).render('cart', {
-          script: "cart",
           style: "cart.css",
           title: "Cart",
           cart: cart

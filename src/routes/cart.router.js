@@ -31,6 +31,7 @@ router.post('/', async (req, res) => {
   try {
     const product = req.body
     const newCart = await cartsManagerDB.addCart(product)
+    console.log(newCart)
     res.status(200).json({ newCart })
 
   } catch (error) {
