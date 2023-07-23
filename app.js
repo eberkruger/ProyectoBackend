@@ -3,16 +3,18 @@ import handlebars from 'express-handlebars'
 import { Server } from 'socket.io'
 import mongoose from 'mongoose'
 import http from 'http'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
+
 import __dirname from './src/utils.js'
 import routers from './src/routes/index.router.js'
-
 import ProductManagerDB from './src/dao/mongo/products.dbManager.js'
 import MessagesManagerDB from './src/dao/mongo/messages.dbManager.js'
 import CartsManagerDB from './src/dao/mongo/cartsManager.js'
+
 const productManagerDB = new ProductManagerDB()
 const messagesManagerDB = new MessagesManagerDB()
 const cartsManagerDB = new CartsManagerDB()
-
 
 const PORT = process.env.PORT || 8080
 const app = express()
@@ -29,7 +31,6 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', `${__dirname}/views`)
 app.set('view engine', 'handlebars')
 
-
 /* server */
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
@@ -42,6 +43,16 @@ try {
 } catch (error) {
   console.log(error)
 }
+
+app.use(session({
+  store: new MongoStore({
+    mongoUrl: 'mongodb+srv://eberkruger:zU415sC6F3UgAK1d@backendcoder.je3pu0q.mongodb.net/ecommerce',
+    ttl: 3600
+  }),
+  secret: 'secretCoder',
+  resave: true,
+  saveUninitialized: true
+}))
 
 /* routers */
 app.use('/', routers)

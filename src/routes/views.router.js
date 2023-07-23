@@ -9,8 +9,20 @@ const messagesManagerDB = new MessagesManagerDB()
 const productManagerDB = new ProductManagerDB()
 const cartsManagerDB = new CartsManagerDB()
 
+
+const publicAccess = (req, res, next) => {
+  if (req.session.user) return res.redirect('/')
+  next()
+}
+
+const privateAccess = (req, res, next) => {
+  if (!req.session.user) return res.redirect('/register')
+  next()
+}
+
+
 /* home */
-router.get('/', async (req, res) => {
+router.get('/', publicAccess, async (req, res) => {
   const { limit = 4, page, sort, query } = req.query
   const products = await productManagerDB.getAll(limit, page, sort, query)
 
@@ -24,7 +36,8 @@ router.get('/', async (req, res) => {
     style: 'home.css',
     title: 'Home',
     products: products.docs,
-    pagination: products
+    pagination: products,
+    user: req.session.user
   })
 })
 
@@ -69,5 +82,26 @@ router.get('/chat', async (req, res) => {
     messages: messages,
   })
 })
+
+/* Sessions */
+router.get('/register', async (req, res) => {
+  res.render('register', {
+    style: 'home.css'
+  })
+})
+
+router.get('/login', async (req, res) => {
+  res.render('login', {
+    style: 'home.css'
+  })
+})
+
+router.get('/profile', async (req, res) => {
+  res.render('profile', {
+    style: 'home.css',
+    user: req.session.user
+  })
+})
+
 
 export default router;
