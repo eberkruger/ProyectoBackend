@@ -1,28 +1,20 @@
 import { Router } from "express"
+import { authorization } from "../Middlewares/auth.js"
 
 import MessagesManagerDB from '../dao/mongo/messages.dbManager.js'
 import ProductManagerDB from '../dao/mongo/products.dbManager.js'
 import CartsManagerDB from '../dao/mongo/cartsManager.js'
+import UsersManagerDB from '../dao/mongo/usersManager.js'
 
 const router = Router()
 const messagesManagerDB = new MessagesManagerDB()
 const productManagerDB = new ProductManagerDB()
 const cartsManagerDB = new CartsManagerDB()
-
-
-const publicAccess = (req, res, next) => {
-  if (req.session.user) return res.redirect('/')
-  next()
-}
-
-const privateAccess = (req, res, next) => {
-  if (!req.session.user) return res.redirect('/register')
-  next()
-}
+const usersManagerDB = new UsersManagerDB()
 
 
 /* home */
-router.get('/', publicAccess, async (req, res) => {
+router.get('/', authorization('USER'), async (req, res) => {
   const { limit = 4, page, sort, query } = req.query
   const products = await productManagerDB.getAll(limit, page, sort, query)
 
@@ -42,7 +34,7 @@ router.get('/', publicAccess, async (req, res) => {
 })
 
 /* realTimeProducts */
-router.get('/realtimeproducts', async (req, res) => {
+router.get('/realtimeproducts', authorization('USER'), async (req, res) => {
   const { limit, page, sort, query } = req.query
   const { docs } = await productManagerDB.getAll(limit, page, sort, query)
   //const products = await productManagerDB.getAll()
@@ -51,24 +43,25 @@ router.get('/realtimeproducts', async (req, res) => {
     style: 'realTimeProducts.css',
     title: 'Real Time Products',
     products: docs,
+    user: req.session.user,
   })
 })
 
 /* Carts */
-router.get('/carts/:cid', async (req, res) => {
+router.get('/carts/:cid', authorization('USER'), async (req, res) => {
   const cartId = req.params.cid
 
-  try{
-      const cart = await cartsManagerDB.getCartById(cartId)
-      console.log(cart)
-      res.status(200).render('cart', {
-          style: "cart.css",
-          title: "Cart",
-          cart: cart
-      })
+  try {
+    const cart = await cartsManagerDB.getCartById(cartId)
+    console.log(cart)
+    res.status(200).render('cart', {
+      style: "cart.css",
+      title: "Cart",
+      cart: cart
+    })
 
-  }catch(error){
-      res.status(500).send(`Error trying to fetch cart data: ${error}`)
+  } catch (error) {
+    res.status(500).send(`Error trying to fetch cart data: ${error}`)
   }
 })
 
@@ -96,12 +89,13 @@ router.get('/login', async (req, res) => {
   })
 })
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', authorization('USER'), async (req, res) => {
   res.render('profile', {
+    user: req.session.user,
     style: 'home.css',
-    user: req.session.user
   })
 })
+
 
 
 export default router;

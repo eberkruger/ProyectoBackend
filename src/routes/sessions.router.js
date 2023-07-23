@@ -6,12 +6,12 @@ const usersManagerDB = new UsersManagerDB
 
 router.post('/register', async (req, res) => {
   const { email } = req.body
-  const emailRegistered = await usersManagerDB.isEmailRegistered(email)
+  let emailRegistered = await usersManagerDB.isEmailRegistered(email)
   if (emailRegistered) {
     return res.status(400).send({ status: 'Error', message: 'El correo electrónico ya está registrado.' })
   }
 
-  const newUser = await usersManagerDB.createUser(req.body)
+  let newUser = await usersManagerDB.createUser(req.body)
   res.send({ status: 'success', payload: newUser })
 })
 
@@ -21,26 +21,39 @@ router.get('/all', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body
-  if (email === 'adminCoder@coder.com' && password === 'coder123') {
-    req.session.usersManagerDB = {
-      name: 'Admin',
-      email: '...',
-      role: 'admin'
-    }
-    res.status(200).send({ status: 'success', payload: 'Admin' })
-  }
+  let userLogin = req.body
 
-  const user = await usersManagerDB.getUser({ email, password })
-  if (!user) {
-    return res.status(400).send({ status: 'Error', payload: 'Credenciales incorrectas' })
+  try {
+    let allUsers = await usersManagerDB.getAllUsers()
+
+    let userFound = allUsers.find(us => {
+      return us.email === userLogin.email && us.password === userLogin.password
+    })
+
+    if (userLogin.email === 'adminCoder@coder.com' && userLogin.password === 'coder123') {
+      req.session.user = {
+        name: 'Admin',
+        email: '...',
+        role: 'admin'
+      }
+      return res.status(200).send({ status: 'success', payload: 'admin' })
+    }
+
+    if (userFound) {
+      req.session.user = {
+        name: userFound.first_name + ' ' + userFound.last_name,
+        email: userFound.email.toLowerCase(),
+        role: userFound.role
+      }
+    } else {
+      return res.status(400).send({ status: 'Error', payload: 'Credenciales incorrectas' })
+    }
+
+    return res.status(200).send({ status: 'success', payload: 'Credenciales correctas' })
+  } catch (error) {
+    console.error('Error al obtener los usuarios:', error)
+    return res.status(500).send({ status: 'Error', payload: 'Error interno del servidor' })
   }
-  req.session.usersManagerDB = {
-    name: `${user.first_name} ${user.last_name}`,
-    email: user.email,
-    role: user.role
-  }
-  return res.status(200).send({ status: 'success', payload: 'Credenciales correctas' })
 })
 
 router.get('/logout', async (req, res) => {
