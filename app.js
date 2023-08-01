@@ -5,12 +5,14 @@ import mongoose from 'mongoose'
 import http from 'http'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
+import passport from 'passport'
 
 import __dirname from './src/utils.js'
 import routers from './src/routes/index.router.js'
 import ProductManagerDB from './src/dao/mongo/products.dbManager.js'
 import MessagesManagerDB from './src/dao/mongo/messages.dbManager.js'
 import CartsManagerDB from './src/dao/mongo/cartsManager.js'
+import initializePassport from './src/config/passport.config.js'
 
 const productManagerDB = new ProductManagerDB()
 const messagesManagerDB = new MessagesManagerDB()
@@ -53,6 +55,11 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
+
+/* passport */
+app.use(passport.initialize())
+app.use(passport.session())
+initializePassport()
 
 /* routers */
 app.use('/', routers)
