@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import UsersManagerDB from '../dao/mongo/usersManager.js'
 import passport from 'passport'
+import { authorization } from "../Middlewares/auth.js"
 
 const router = Router()
 const usersManagerDB = new UsersManagerDB
@@ -22,7 +23,7 @@ router.get('/all', async (req, res) => {
 
 router.post('/login', passport.authenticate('login', { failureRedirect: '/api/sessions/loginError', failureMessage: true }),
   async (req, res) => {
-    if (!req.user) return res.status(500).send({ status: 'error', error: 'Invalid Credentials' })
+    if (!req.user) return res.status(401).send({ status: 'error', error: 'Invalid Credentials' })
     req.session.user = {
       first_name: req.user.first_name,
       last_name: req.user.last_name,
@@ -30,14 +31,15 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/api/se
       email: req.user.email,
       role: req.user.role
     }
-    res.send({ status: 'Error', error: 'Login failed' })
+    res.send({ status: 'success', message: 'Login success' })
   })
 
 router.get('/loginError', (req, res) => {
-  if (req.session.messages) {
-    if (req.session.messages.length > 4) return res.status(400).json({ message: 'Bloquea los intentos ya!' })
-  }
-  res.status(400).json({ status: 'Error', error: req.session.messages })
+  if (!req.session) { return res.status(400).json({ message: 'Sesión no encontrada' }) }
+
+  if (req.session.messages) { if (req.session.messages.length > 4) { return res.status(400).json({ message: 'Cantidad de intentos superada' }); } }
+
+  res.status(400).json({ status: 'Error', error: req.session.messages });
 })
 
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
@@ -55,5 +57,15 @@ router.get('/logout', async (req, res) => {
     res.redirect('/login')
   })
 })
+
+router.get('/current', authorization('USER'), async (req, res) => {
+  try {
+    const user = req.session.user
+    return res.send({ status: 'success', user })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 
 export default router
