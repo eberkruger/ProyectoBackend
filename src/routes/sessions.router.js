@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import UsersManagerDB from '../dao/mongo/usersManager.js'
 import passport from 'passport'
-import { authorization } from "../Middlewares/auth.js"
+import { authorization } from "../middlewares/auth.js"
 
 const router = Router()
 const usersManagerDB = new UsersManagerDB

@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { authorization } from "../Middlewares/auth.js"
+import { authorization } from "../middlewares/auth.js"
 
 import MessagesManagerDB from '../dao/mongo/messages.dbManager.js'
 import ProductManagerDB from '../dao/mongo/products.dbManager.js'
