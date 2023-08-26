@@ -6,6 +6,7 @@ import http from 'http'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
+import dotenv from 'dotenv'
 
 import __dirname from './src/utils.js'
 import routers from './src/routes/index.router.js'
@@ -22,6 +23,7 @@ const PORT = process.env.PORT || 8080
 const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
+dotenv.config()
 
 /* middlewares */
 app.use(express.static(`${__dirname}/public`))
@@ -40,7 +42,7 @@ server.listen(PORT, () => {
 
 /* DB */
 try {
-  await mongoose.connect('mongodb+srv://eberkruger:zU415sC6F3UgAK1d@backendcoder.je3pu0q.mongodb.net/ecommerce')
+  await mongoose.connect(process.env.MONGO_DB_URL)
   console.log('Connected to DB')
 } catch (error) {
   console.log(error)
@@ -48,10 +50,10 @@ try {
 
 app.use(session({
   store: new MongoStore({
-    mongoUrl: 'mongodb+srv://eberkruger:zU415sC6F3UgAK1d@backendcoder.je3pu0q.mongodb.net/ecommerce',
+    mongoUrl: process.env.MONGO_DB_URL,
     ttl: 3600
   }),
-  secret: 'secretCoder',
+  secret: process.env.MONGO_SECRET,
   resave: true,
   saveUninitialized: true
 }))
