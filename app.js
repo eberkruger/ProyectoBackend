@@ -65,7 +65,6 @@ initializePassport()
 
 /* routers */
 app.use('/', routers)
-app.use('/api', routers)
 
 /* webSocket */
 io.on('connection', async socket => {

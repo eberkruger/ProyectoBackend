@@ -8,7 +8,6 @@ const usersManagerDB = new UsersManagerDB
 
 router.post('/register', passport.authenticate('register', { failureRedirect: '/api/sessions/registerError', failureMessage: true }),
   async (req, res) => {
-    console.log(req.message)
     res.send({ status: 'success', message: 'User Registered' })
   })
 
