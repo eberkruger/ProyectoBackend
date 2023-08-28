@@ -8,4 +8,6 @@ export default {
   clientID : process.env.CLIENT_ID,
   clientSecret : process.env.CLIENT_SECRET,
   callbackUrl : process.env.CALLBACK_URL,
+  adminEmail : process.env.ADMIN_EMAIL,
+  adminPwd : process.env.ADMIN_PWD,
 }

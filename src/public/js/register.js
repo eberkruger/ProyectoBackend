@@ -23,6 +23,8 @@ form.addEventListener('submit', async (e) => {
 
   if (responseData.status == 'success') {
     window.location.replace('/login')
+  } else {
+    alert('Usuario ya registrado')
   }
 
   form.reset()

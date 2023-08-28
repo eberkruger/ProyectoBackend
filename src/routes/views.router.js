@@ -34,7 +34,7 @@ router.get('/', authorization('USER'), async (req, res) => {
 })
 
 /* realTimeProducts */
-router.get('/realtimeproducts', authorization('USER'), async (req, res) => {
+router.get('/realtimeproducts', authorization('ADMIN'), async (req, res) => {
   const { limit, page, sort, query } = req.query
   const { docs } = await productManagerDB.getAll(limit, page, sort, query)
   //const products = await productManagerDB.getAll()
