@@ -21,7 +21,7 @@ export default class ProductManagerDB {
 
     let queryLimit = limit ? Number(limit) : 20
     let queryPage = page ? Number(page) : 1
-    let findQuery = query ? { category: query } : {}
+    let findQuery = query ? { category: query.toLowerCase() } : {}
 
     let querySort
     if (sort === 'asc') {
