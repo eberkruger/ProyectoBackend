@@ -1,0 +1,12 @@
+# DB APP.JS
+MONGO_DB_URL='mongodb+srv://eberkruger:zU415sC6F3UgAK1d@backendcoder.je3pu0q.mongodb.net/ecommerce'
+MONGO_SECRET='secretCoder'
+
+# PASSPORT.CONFIG.JS || GitHubStrategy 
+CLIENT_ID='3709fb060b503c3748fc'
+CLIENT_SECRET='ecd9edf75ee177c93bfa723017c505808340289f'
+CALLBACK_URL='http://localhost:8080/api/sessions/github/callback'
+
+# ADMIN DATA
+ADMIN_EMAIL='admin@ecommerce.com'
+ADMIN_PWD='admin123456'
