@@ -41,12 +41,13 @@ server.listen(PORT, () => {
 })
 
 /* DB */
-try {
-  await mongoose.connect(process.env.MONGO_DB_URL)
-  console.log('Connected to DB')
-} catch (error) {
-  console.log(error)
-}
+mongoose.connect(process.env.MONGO_DB_URL)
+  .then(() => {
+    console.log('Connected to DB');
+  })
+  .catch(error => {
+    console.error('Error connecting to DB:', error);
+  })
 
 app.use(session({
   store: new MongoStore({
@@ -55,7 +56,7 @@ app.use(session({
   }),
   secret: process.env.MONGO_SECRET,
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
 }))
 
 /* passport */
