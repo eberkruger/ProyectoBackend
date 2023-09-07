@@ -1,4 +1,4 @@
-import { productService, cartService, messageService } from "../services/index.service.js"
+import { productService, cartService, messagesService } from "../services/index.service.js"
 
 const getAllProducts = async (req, res) => {
   const { limit = 4, page, sort, query } = req.query
@@ -50,7 +50,7 @@ const getCart = async (req, res) => {
 }
 
 const chat = async (req, res) => {
-  const messages = await messageService.getAllMessages()
+  const messages = await messagesService.getAllMessages()
 
   res.render('chat', {
     style: 'chat.css',
